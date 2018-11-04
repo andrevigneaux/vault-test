@@ -12,7 +12,6 @@ public class DepartmentValidator {
 
     public static final Validation<Date> firstFortnightDate =
             GenericValidation.from(d -> DateUtil.isDateTheFirstFortnight(d));
-
     public static final Validation<Double> firstFortnightSalary =
             GenericValidation.from(s -> s < firstFortnightAvgSalaryValidation);
     public static final Validation<Double> secondFortnightSalary =

@@ -22,8 +22,13 @@ public class DepartmentMapper implements CustomMapper<Department, DepartmentDTO>
     @Override
     public Department DTOToBusiness(DepartmentDTO dto) {
         Department business = new Department();
-        Optional optLocation = locationRepository.findById(dto.getLocationId());
-        Optional optManager = employeeRepository.findById(dto.getManagerId());
+        Optional optLocation = Optional.empty();
+        Optional optManager = Optional.empty();
+        if (dto.getLocationId() != null)
+            optLocation = locationRepository.findById(dto.getLocationId());
+
+        if (dto.getManagerId() != null)
+            optManager = employeeRepository.findById(dto.getManagerId());
 
         CoreUtil.setIfNotNull(business::setName, dto.getName());
         if (optLocation.isPresent())

@@ -53,10 +53,10 @@ public class EmployeeServiceTest {
     @Test
     public void should_get_all_employees_by_job() {
         //Assign
-        Job jobDev = jobRepository.save(getNewJob("dev"));
-        Job jobQA = jobRepository.save(getNewJob("qa"));
-        employeeRepository.save(getNewEmployeeWithJob("Peter", jobDev));
-        employeeRepository.save(getNewEmployeeWithJob("Claudia", jobQA));
+        Job jobDev = createJob("dev");
+        Job jobQA = createJob("qa");
+        createEmployee("Peter", jobDev);
+        createEmployee("Claudia", jobQA);
 
         List<Employee> employees = employeeService.getEmployees(Optional.of(jobDev.getId()),
                 Optional.empty(),
@@ -70,43 +70,31 @@ public class EmployeeServiceTest {
     @Test
     public void should_get_all_employees_with_all_filters_and_pagination() {
         //Assign
-        Job jobMan = jobRepository.save(getNewJob("manager"));
-        Job jobSales = jobRepository.save(getNewJob("sales"));
-        Job jobMkt = jobRepository.save(getNewJob("marketing"));
+        Job jobMan = createJob("manager");
+        Job jobSales = createJob("sales");
+        Job jobMkt = createJob("marketing");
 
-        Employee managerEmp = getNewEmployeeWithJob("George", "Smith", jobMan);
-        Employee mktEmp = getNewEmployeeWithJob("John", "Doe", jobMkt);
-        Employee mktEmp2 = getNewEmployeeWithJob("Jack", "Doe", jobMkt);
-        Employee mktEmp3 = getNewEmployeeWithJob("Jerry", "Doe", jobMkt);
+        Employee managerEmp = createEmployee("George", jobMan);
+        createEmployee("John", "Doe", jobMkt, "20/02/2017", managerEmp);
+        createEmployee("Jack", "Doe", jobMkt, "16/12/2015", managerEmp);
+        createEmployee("Jerry", "Doe", jobMkt, "01/01/2012", managerEmp);
+        createEmployee("Susane", jobSales);
 
-        mktEmp.setManager(managerEmp);
-        mktEmp2.setManager(managerEmp);
-        mktEmp3.setManager(managerEmp);
-
-        mktEmp.setHireDate(DateUtil.getDate("20/02/2017"));
-        mktEmp2.setHireDate(DateUtil.getDate("16/12/2015"));
-        mktEmp3.setHireDate(DateUtil.getDate("01/01/2012"));
-
-        employeeRepository.save(managerEmp);
-        employeeRepository.save(mktEmp);
-        employeeRepository.save(mktEmp2);
-        employeeRepository.save(mktEmp3);
-        employeeRepository.save(getNewEmployeeWithJob("Susane", jobSales));
-
+        //Act
         List<Employee> employeesPag1 = employeeService.getEmployees(Optional.of(jobMkt.getId()),
                 Optional.of(managerEmp.getId()),
-                Optional.of(mktEmp.getLastName()),
+                Optional.of("Doe"),
                 Optional.of(0),
                 Optional.of(2));
 
-        assertTrue(employeesPag1.size() == 2 && employeesPag1.get(0).getFirstName().equals("Jack"));
-
         List<Employee> employeesPag2 = employeeService.getEmployees(Optional.of(jobMkt.getId()),
                 Optional.of(managerEmp.getId()),
-                Optional.of(mktEmp.getLastName()),
+                Optional.of("Doe"),
                 Optional.of(1),
                 Optional.of(2));
 
+        //Assert
+        assertTrue(employeesPag1.size() == 2 && employeesPag1.get(0).getFirstName().equals("Jack"));
         assertTrue(employeesPag2.size() == 1);
     }
 
@@ -122,24 +110,29 @@ public class EmployeeServiceTest {
         return employee;
     }
 
-    private Employee getNewEmployeeWithJob(String name, Job job) {
+    private Employee createEmployee(String name, Job job) {
         Employee employee = new Employee();
         employee.setFirstName(name);
         employee.setJob(job);
+        employeeRepository.save(employee);
         return employee;
     }
 
-    private Employee getNewEmployeeWithJob(String name, String lastName, Job job) {
+    private Employee createEmployee(String name, String lastName, Job job, String date, Employee manager) {
         Employee employee = new Employee();
         employee.setFirstName(name);
         employee.setLastName(lastName);
         employee.setJob(job);
+        employee.setHireDate(DateUtil.getDate(date));
+        employee.setManager(manager);
+        employeeRepository.save(employee);
         return employee;
     }
 
-    private Job getNewJob(String name) {
+    private Job createJob(String name) {
         Job job = new Job();
         job.setTitle(name);
+        jobRepository.save(job);
         return job;
     }
 

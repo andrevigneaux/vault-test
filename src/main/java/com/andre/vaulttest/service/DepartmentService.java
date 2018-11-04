@@ -30,12 +30,12 @@ public class DepartmentService {
 
 
     public Long insertDepartment(DepartmentDTO departmentDTO) {
-        Optional optInsertLocation = locationRepository.findById(departmentDTO.getLocationId());
+        Optional optDepartmentLocation = locationRepository.findById(departmentDTO.getLocationId());
         OptionalDouble salaryAverage = OptionalDouble.empty();
 
-        if (optInsertLocation.isPresent()) {
-            Location insertLocation = (Location) optInsertLocation.get();
-            List<Department>  departments = departmentRepository.findByLocation(insertLocation);
+        if (optDepartmentLocation.isPresent()) {
+            Location departmentLocation = (Location) optDepartmentLocation.get();
+            List<Department>  departments = departmentRepository.findByLocation(departmentLocation);
             salaryAverage = employeeService.getSalaryAveragePerDepartments(departments);
         }
 
