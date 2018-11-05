@@ -1,10 +1,14 @@
 package com.andre.vaulttest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "VAULT_LOCATION")
+@JsonIgnoreProperties({"departments"})
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

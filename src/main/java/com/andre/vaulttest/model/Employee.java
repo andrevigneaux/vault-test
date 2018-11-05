@@ -1,21 +1,22 @@
 package com.andre.vaulttest.model;
 
-import com.andre.vaulttest.model.pk.JobHistoryPK;
-import org.hibernate.annotations.DynamicUpdate;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "VAULT_EMPLOYEE")
+@JsonIgnoreProperties({"employees"})
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "EMPLOYEE_ID")
     private Long id;
+    @NotNull(message = "You should provide the employee first name at least")
     @Column(name = "FIRST_NAME")
     private String firstName;
     @Column(name = "LAST_NAME")
@@ -36,6 +37,7 @@ public class Employee {
     private Double commissionPercentage;
     @ManyToOne
     @JoinColumn(name = "MANAGER_ID")
+    @JsonIgnoreProperties({"department", "jobsHistory"})
     private Employee manager;
     @ManyToOne
     @JoinColumn(name = "DEPARTMENT_ID")
@@ -43,6 +45,8 @@ public class Employee {
 
     @OneToMany(mappedBy = "id.employee", fetch = FetchType.LAZY)
     private List<JobHistory> jobsHistory;
+    @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
+    private List<Employee> employees;
 
     public Employee() {}
 
@@ -140,5 +144,13 @@ public class Employee {
 
     public void setJobsHistory(List<JobHistory> jobsHistory) {
         this.jobsHistory = jobsHistory;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 }

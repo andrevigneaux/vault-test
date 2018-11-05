@@ -11,6 +11,7 @@ import com.andre.vaulttest.validation.DepartmentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +30,10 @@ public class DepartmentService {
     DepartmentMapper departmentMapper;
 
 
-    public Long insertDepartment(DepartmentDTO departmentDTO) {
+    public Long insertDepartment(DepartmentDTO departmentDTO) throws ConstraintViolationException {
+        if (departmentDTO.getLocationId() == null) {
+            return null;
+        }
         Optional optDepartmentLocation = locationRepository.findById(departmentDTO.getLocationId());
         OptionalDouble salaryAverage = OptionalDouble.empty();
 
@@ -47,7 +51,7 @@ public class DepartmentService {
             }
         }
 
-        return null;
+        return -1L;
     }
 
     public boolean isValidDepartment(Double salaryAvg) {

@@ -67,7 +67,7 @@ public class DepartmentServiceTest {
         Long id = departmentService.insertDepartment(depDto);
         Long id2 = departmentService.insertDepartment(depDto2);
         assertNotNull(id);
-        assertNull(id2);
+        assertTrue(id2 == -1L);
     }
 
     private Department createDepartment(String name, Location location) {

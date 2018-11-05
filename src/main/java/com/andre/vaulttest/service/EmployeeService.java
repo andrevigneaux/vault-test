@@ -15,7 +15,6 @@ import org.springframework.data.domain.PageRequest;;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,6 +89,7 @@ public class EmployeeService {
             Optional optManager = employeeRepository.findById((Long) managerId.get());
             if (optManager.isPresent()) {
                 Employee manager = (Employee) optManager.get();
+                manager.setDepartment(null); //to prevent cyclic reference
                 employee.setManager(manager);
             }
         }
@@ -125,5 +125,6 @@ public class EmployeeService {
 
     private void setEmployeeRelations(Employee employee) {
         employee.setJobsHistory(jobHistoryRepository.findJobHistoryOfEmployee(employee));
+        employee.setEmployees(employeeRepository.findByManager(employee));
     }
 }

@@ -2,6 +2,7 @@ package com.andre.vaulttest.dto;
 
 import java.util.Date;
 
+
 public class EmployeeDTO {
     private String firstName;
     private String lastName;

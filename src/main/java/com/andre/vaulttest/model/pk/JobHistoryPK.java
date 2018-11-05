@@ -1,6 +1,7 @@
 package com.andre.vaulttest.model.pk;
 
 import com.andre.vaulttest.model.Employee;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Embeddable
+@JsonIgnoreProperties({"employee"})
 public class JobHistoryPK implements Serializable {
     @ManyToOne
     @JoinColumn(name = "EMPLOYEE_ID")

@@ -1,12 +1,16 @@
 package com.andre.vaulttest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Table(name = "VAULT_DEPARTMENT")
+@JsonIgnoreProperties({"employees", "jobsHistory"})
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,9 +20,11 @@ public class Department {
     private String name;
     @ManyToOne
     @JoinColumn(name = "MANAGER_ID")
+    @JsonIgnoreProperties({"department", "jobsHistory"})
     private Employee manager;
     @ManyToOne
     @JoinColumn(name = "LOCATION_ID")
+    @NotNull(message = "Location Id must not be null.")
     private Location location;
 
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)

@@ -1,6 +1,7 @@
 package com.andre.vaulttest.model;
 
 import com.andre.vaulttest.model.pk.JobHistoryPK;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Date;
