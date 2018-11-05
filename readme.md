@@ -5,11 +5,15 @@
 
 ## Tests
 Luego de clonar el proyecto, se pueden lanzar pruebas de los servicios para corroborar el correcto funcionamiento:
-`mvn test`
-
+```bash
+mvn test
+```
 ## Configuración
 Para una rápida ejecución sin configuración, ejecutar el siguiente comando:
-`mvn spring-boot:run -Dspring.config.location=classpath:quick-app.properties`
+
+```bash
+mvn spring-boot:run -Dspring.config.location=classpath:quick-app.properties
+```
 
 Dicho comando inicializará el servicio web con una DB en memoria (H2) con datos por defecto.
 
@@ -22,7 +26,9 @@ spring.datasource.initialization-mode=always
 En caso que se desee utilizar una DB ya creada con datos, cambiar el valor de la propiedad por *never*
 
 Para ejecutar el servicio con ésta configuración
-`mvn spring-boot:run`
+```bash
+mvn spring-boot:run
+```
 
 Por defecto se ejecutará la aplicación en un Tomcat embebido en el puerto 8080.
 
