@@ -3,11 +3,11 @@
 - Java 1.8
 - Maven 3 o superior
 
-##Tests
+## Tests
 Luego de clonar el proyecto, se pueden lanzar pruebas de los servicios para corroborar el correcto funcionamiento:
 `mvn test`
 
-##Configuración
+## Configuración
 Para una rápida ejecución sin configuración, ejecutar el siguiente comando:
 `mvn spring-boot:run -Dspring.config.location=classpath:quick-app.properties`
 
@@ -26,13 +26,13 @@ Para ejecutar el servicio con ésta configuración
 
 Por defecto se ejecutará la aplicación en un Tomcat embebido en el puerto 8080.
 
-##API
+## API
 
-###Obtener empleado sin relaciones
-- Método: GET
-- Ruta: /employee/{id}
-- Modelo respuesta:
-```
+### Obtener empleado sin relaciones
+1. Método: GET
+2. Ruta: /employee/{id}
+3. Modelo respuesta:
+```javascript
 {
 "firstName": "Jean",
 "lastName": "Leduc",
@@ -44,28 +44,28 @@ Por defecto se ejecutará la aplicación en un Tomcat embebido en el puerto 8080
 }
 ```
 
-###Insertar empleado sin relaciones
-- Método: POST
-- Ruta: /employee
-- En el header de la respuesta 201 se podrá ver la ruta para consultar el empleado creado
-- Modelo del request body como la respuesta del método GET
+### Insertar empleado sin relaciones
+1. Método: POST
+2. Ruta: /employee
+3. En el header de la respuesta 201 se podrá ver la ruta para consultar el empleado creado
+4. Modelo del request body como la respuesta del método GET
 
-###Modificar empleado sin relaciones
-- Método: PUT
-- Ruta: /employee/{ID}
-- Modelo del request body como la respuesta del método GET
+### Modificar empleado sin relaciones
+1. Método: PUT
+2. Ruta: /employee/{ID}
+3. Modelo del request body como la respuesta del método GET
 
-###Eliminar empleado sin relaciones
-- Método: DELETE
-- Ruta: /employee/{ID}
+### Eliminar empleado sin relaciones
+1. Método: DELETE
+2. Ruta: /employee/{ID}
 
-###Obtener empleados con relaciones y filtros
-- Método: GET
-- Ruta: /employee
-- Parámetros opcionales: 
+### Obtener empleados con relaciones y filtros
+1. Método: GET
+2. Ruta: /employee
+3. Parámetros opcionales: 
 * Filtros: jobId, managerId, lastName
 * Paginación: startAt, maxResults
-- Modelo respuesta:
+4. Modelo respuesta:
 ```javascript
 {
 	"id": 1,
@@ -88,10 +88,10 @@ Por defecto se ejecutará la aplicación en un Tomcat embebido en el puerto 8080
 }
 ```
 
-###Insertar departamento
-- Método: POST
-- Ruta: /department
-- Modelo request body a enviar:
+### Insertar departamento
+1. Método: POST
+2. Ruta: /department
+3. Modelo request body a enviar:
 ```javascript
 {
 	"name": "department",
